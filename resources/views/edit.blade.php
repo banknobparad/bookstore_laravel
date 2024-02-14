@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('title')
-@section('activeCreate')
-    active border-2 border-bottom border-primary
-@endsection
 @section('content')
     <style>
         .image-preview {
@@ -47,28 +44,32 @@
                 Add New Book
             </div>
             <div class="card-body p-4">
-                <form action="{{ route('book.store') }}" method="POST" class="row" enctype="multipart/form-data">
+                <form action="{{ route('book.update', $books_edit->id) }}" method="POST" class="row" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-lg-6">
                         <label class="form-control-label" for="form-group-input">Title</label>
-                        <input type="text" class="form-control" id="form-group-input" name="title">
+                        <input type="text" value="{{ old('title', $books_edit->title) }}" class="form-control"
+                            id="form-group-input" name="title">
                     </div>
                     <div class="form-group col-lg-6">
                         <label class="form-control-label" for="form-group-input">Author</label>
-                        <input type="text" class="form-control" id="form-group-input" name="author">
+                        <input type="text" value="{{ old('author', $books_edit->author) }}" class="form-control"
+                            id="form-group-input" name="author">
                     </div>
 
                     <div class="form-group col-lg-8">
                         <label class="form-control-label" for="form-group-input">Publisher</label>
-                        <input type="text" class="form-control" id="form-group-input" name="publisher">
+                        <input type="text" value="{{ old('publisher', $books_edit->publisher) }}" class="form-control"
+                            id="form-group-input" name="publisher">
                     </div>
 
                     <div class="form-group col-lg-4">
                         <label class="form-control-label" for="form-group-input">Category</label>
                         <select class="form-control" name="ctgy_book">
                             <option value="" selected disabled>{{ __('Select Category Book') }}</option>
-                            @foreach ($ctgybook as $item)
-                                <option value="{{ $item->id }}" {{ old('ctgy_book') == $item->id ? 'selected' : '' }}>
+                            @foreach ($ctgybook_edit as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ old('ctgy_book', $books_edit->ctgybook->id) == $item->id ? 'selected' : '' }}>
                                     {{ $item->name_book }}
                                 </option>
                             @endforeach
@@ -77,21 +78,26 @@
 
                     <div class="form-group col-lg-12">
                         <label class="form-control-label" for="form-group-input">Detail</label>
-                        <textarea class="form-control" id="form-group-input" name="detail" rows="5"></textarea>
+                        <textarea class="form-control" id="form-group-input" name="detail" rows="5">{{ old('detail', $books_edit->detail) }}</textarea>
                     </div>
 
                     <div class="form-group col-lg-7">
                         <label class="form-control-label" for="form-group-input">Image</label>
-                        <input type="file" name="image" class="form-control" placeholder="image">
+                        <img src="{{ asset('images/' . $books_edit->image) }}"
+                            style="max-width: 200px; margin-top: 10px; position: relative; display: block;">
                     </div>
+
 
                     <div class="form-group col-lg-5">
                         <label class="form-control-label" for="form-group-input">Price</label>
-                        <input type="number" name="price" class="form-control" placeholder="price">
-                    </div>
+                        <input type="number" value="{{ old('price', $books_edit->price) }}" name="price"
+                            class="form-control" placeholder="price">
+                        <div class="mt-2">
+                            <label class="form-control-label" for="form-group-input">Image</label>
+                            <input type="file" name="image" class="form-control" placeholder="image">
 
-                    <div class="form-group col-lg-7">
-                        <img class="image-preview" src="#" alt="Preview Image">
+                            <img class="image-preview" src="#" alt="Preview Image">
+                        </div>
                     </div>
 
 

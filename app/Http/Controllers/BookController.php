@@ -10,7 +10,9 @@ class BookController extends Controller
 {
     function index()
     {
-        return view('index');
+        $books = book::get();
+        // dd($books);
+        return view('index', compact('books'));
     }
 
     function create()
@@ -23,25 +25,25 @@ class BookController extends Controller
     function store(Request $request)
     {
         $request->validate(
-            // [
-            //     'ctgy_book' => 'required',
-            //     'title' => 'required',
-            //     'author' => 'required',
-            //     'publisher' => 'required',
-            //     'detail' => 'required',
-            //     'image' => 'required',
-            //     'price' => 'required',
+            [
+                'ctgy_book' => 'required',
+                'title' => 'required',
+                'author' => 'required',
+                'publisher' => 'required',
+                'detail' => 'required',
+                'image' => 'required',
+                'price' => 'required',
 
-            // ],
-            // [
-            //     'ctgy_book.required' => 'กรุณากรอกข้อมูล',
-            //     'title.required' => 'กรุณากรอกข้อมูล',
-            //     'author.required' => 'กรุณากรอกข้อมูล',
-            //     'publisher.required' => 'กรุณากรอกข้อมูล',
-            //     'detail.required' => 'กรุณากรอกข้อมูล',
-            //     'image.required' => 'กรุณากรอกข้อมูล',
-            //     'price.required' => 'กรุณากรอกข้อมูล',
-            // ]
+            ],
+            [
+                'ctgy_book.required' => 'กรุณากรอกข้อมูล',
+                'title.required' => 'กรุณากรอกข้อมูล',
+                'author.required' => 'กรุณากรอกข้อมูล',
+                'publisher.required' => 'กรุณากรอกข้อมูล',
+                'detail.required' => 'กรุณากรอกข้อมูล',
+                'image.required' => 'กรุณากรอกข้อมูล',
+                'price.required' => 'กรุณากรอกข้อมูล',
+            ]
         );
         $input = [
             'ctgy_book' => $request->ctgy_book,
@@ -52,17 +54,69 @@ class BookController extends Controller
             'image' => $request->image,
             'price' => $request->price,
         ];
-        
+
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $input['image'] = $profileImage;
         }
-        
-        dd($input);
 
         book::create($input);
+        return redirect()->route('book.index');
+    }
+
+    function edit($id)
+    {
+        $ctgybook_edit = bookcategory::get();
+        $books_edit = book::with('ctgybook')->findOrFail($id);
+
+        // dd($books_edit);
+
+        return view('edit', compact('ctgybook_edit', 'books_edit'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'ctgy_book' => 'required',
+                'title' => 'required',
+                'author' => 'required',
+                'publisher' => 'required',
+                'detail' => 'required',
+                'price' => 'required',
+
+            ],
+            [
+                'ctgy_book.required' => 'กรุณากรอกข้อมูล',
+                'title.required' => 'กรุณากรอกข้อมูล',
+                'author.required' => 'กรุณากรอกข้อมูล',
+                'publisher.required' => 'กรุณากรอกข้อมูล',
+                'detail.required' => 'กรุณากรอกข้อมูล',
+                'price.required' => 'กรุณากรอกข้อมูล',
+            ]
+        );
+        $input = [
+            'ctgy_book' => $request->ctgy_book,
+            'title' => $request->title,
+            'author' => $request->author,
+            'publisher' => $request->publisher,
+            'detail' => $request->detail,
+            'image' => $request->image,
+            'price' => $request->price,
+        ];
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = $profileImage;
+        } else {
+            unset($input['image']);
+        }
+
+        book::where('id', $id)->update($input);
         return redirect()->route('book.index');
     }
 }

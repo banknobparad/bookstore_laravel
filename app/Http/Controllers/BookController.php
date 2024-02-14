@@ -6,6 +6,9 @@ use App\Models\book;
 use App\Models\bookcategory;
 use Illuminate\Http\Request;
 
+use Phattarachai\LineNotify\Facade\Line;
+
+
 class BookController extends Controller
 {
     function index()
@@ -13,6 +16,12 @@ class BookController extends Controller
         $books = book::get();
         // dd($books);
         return view('index', compact('books'));
+    }
+
+    function show($id)
+    {
+        $show_book = book::find($id);
+        return view('show', compact('show_book'));
     }
 
     function create()
@@ -63,6 +72,10 @@ class BookController extends Controller
         }
 
         book::create($input);
+
+
+        Line::send('บันทึกข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!');
+        
         return redirect()->route('book.index');
     }
 
@@ -116,6 +129,10 @@ class BookController extends Controller
             unset($input['image']);
         }
 
+        $message = 'อัปเดตข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!';
+
+        Line::send($message);
+        
         book::where('id', $id)->update($input);
         return redirect()->route('book.index');
     }

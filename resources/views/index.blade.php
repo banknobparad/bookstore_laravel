@@ -39,7 +39,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                        <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                        <a href="{{ route('book.show', $book->id) }}" class="btn btn-sm btn-outline-primary">View</a>
                                     </div>
                                     <small class="text-muted">
                                         {{ (new DateTime($book->created_at))->diff(new DateTime())->format('%i นาทีที่แล้ว') }}

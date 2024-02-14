@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->integer('ctgy_book');
-            $table->string('image')->nullable();
             $table->string('title')->nullable();
             $table->string('author')->nullable();
             $table->string('publisher')->nullable();
             $table->text('detail')->nullable();
+            $table->string('image')->nullable();
             $table->double('price')->nullable();
             $table->timestamps();
         });

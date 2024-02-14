@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title')
+@section('activeHome')
+    active border-2 border-bottom border-primary
+@endsection
 @section('content')
     <div class="container py-4">
         <table id="example" class="table table-striped table-bordered">
@@ -26,6 +29,8 @@
             </tbody>
         </table>
     </div>
+
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
@@ -35,4 +40,6 @@
             });
         });
     </script>
+
+
 @endsection

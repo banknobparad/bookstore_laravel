@@ -52,15 +52,27 @@
                     <div class="form-group col-lg-6">
                         <label class="form-control-label" for="form-group-input">Title</label>
                         <input type="text" class="form-control" id="form-group-input" name="title">
+
+                        @error('title')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group col-lg-6">
                         <label class="form-control-label" for="form-group-input">Author</label>
                         <input type="text" class="form-control" id="form-group-input" name="author">
+
+                        @error('author')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-8">
                         <label class="form-control-label" for="form-group-input">Publisher</label>
                         <input type="text" class="form-control" id="form-group-input" name="publisher">
+
+                        @error('publisher')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-4">
@@ -73,21 +85,37 @@
                                 </option>
                             @endforeach
                         </select>
+
+                        @error('ctgy_book')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-12">
                         <label class="form-control-label" for="form-group-input">Detail</label>
                         <textarea class="form-control" id="form-group-input" name="detail" rows="5"></textarea>
+
+                        @error('detail')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-7">
                         <label class="form-control-label" for="form-group-input">Image</label>
                         <input type="file" name="image" class="form-control" placeholder="image">
+
+                        @error('image')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-5">
                         <label class="form-control-label" for="form-group-input">Price</label>
                         <input type="number" name="price" class="form-control" placeholder="price">
+
+                        @error('price')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-lg-7">

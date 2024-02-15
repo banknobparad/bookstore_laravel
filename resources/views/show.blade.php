@@ -150,10 +150,10 @@
                                 <img src="/images/{{ $related_book->image }}" class="card-img-top"
                                     style="height: 250px; object-fit: cover;" alt="{{ $related_book->title }}">
                                 <div class="card-body">
-                                    <h5 class="card-title" style="font-size: 16px;">{{ $related_book->title }}</h5>
+                                    <p style="font-weight: bold;">{!! Str::limit($related_book->title, 35) !!}</p>
                                     <p class="card-text" style="font-size: 14px;">ผู้เขียน: {{ $related_book->author }}</p>
-                                    <p style="font-size: 14px">{{ number_format($related_book->price, 2, '.', ',') }} บาท</p>
-
+                                    <p style="font-size: 14px">{{ number_format($related_book->price, 2, '.', ',') }} บาท
+                                    </p>
                                     <a href="{{ route('book.show', $related_book->id) }}"
                                         class="btn btn-primary btn-sm">ดูรายละเอียด</a>
                                 </div>

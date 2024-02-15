@@ -58,7 +58,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link  @yield('activeReport')" href="{{ route('books.report') }}">{{ __('ReportBook') }}</a>
+                        <a class="nav-link  @yield('activeReport')" href="{{ route('books.reportbook') }}">{{ __('ReportBook') }}</a>
                     </li>
 
                 </ul>

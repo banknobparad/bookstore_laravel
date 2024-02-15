@@ -6,20 +6,41 @@
 @endsection
 
 @section('content')
-
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-
+    <style>
+        .table-th-color th {
+            background-color: #343a40;
+            /* สีพื้นหลังส่วนหัวตาราง */
+            color: #e4e7ec;
+            /* สีของข้อความในส่วนหัวตาราง */
+        }
+    </style>
     <div class="container">
-        <table id="example" class="display">
-            <thead>
+        <h1 class="text-center pt-4">Report Data</h1>
+        <hr>
+        <form action="{{ route('books.filter') }}" method="GET">
+            <div class="row pb-3">
+                <div class="col-md-5 pt-4">
+                    <a href="{{ route('books.reportbook') }}" class="btn btn-success mr-2">All Books</a>
+                    </a>
+
+                </div>
+                <div class="col-md-3">
+                    <label>Start Date:</label>
+                    <input type="date" name="start_date" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label>End Date:</label>
+                    <input type="date" name="end_date" class="form-control">
+                </div>
+
+                <div class="col-md-1 pt-4">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+
+            </div>
+        </form>
+        <table id="example" class="table table-bordered table-hover table-striped display">
+            <thead class="table-th-color">
                 <tr>
                     <th>ชื่อหนังสือ</th>
                     <th>ผู้แต่ง</th>
@@ -36,15 +57,15 @@
                 @endforeach
             </tbody>
         </table>
-
-        <script defer>
-            $(document).ready(function() {
-                $('#example').DataTable({
-                    responsive: true,
-                    ordering: false,
-                    autoWidth: false,
-                });
-            });
-        </script>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                responsive: true,
+                ordering: false,
+                autoWidth: false,
+            });
+        });
+    </script>
 @endsection

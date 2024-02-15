@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use Phattarachai\LineNotify\Facade\Line;
 
+use function Symfony\Component\String\b;
 
 class BookController extends Controller
 {
@@ -149,55 +150,54 @@ class BookController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $input['image'] = $profileImage;
-
         } else {
             unset($input['image']);
         }
 
+        book::where('id', $id)->update($input);
         $message = 'อัปเดตข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!';
 
         Line::send($message);
 
-        book::where('id', $id)->update($input);
         return redirect()->route('book.index');
     }
 
     function delete($id)
     {
-        book::where('id', $id)->delete();
+        $book = Book::find($id);
+
+        if ($book) {
+            $book->delete();
+
+            $message = 'ลบข้อมูลหนังสือ ' . $book->title . ' สำเร็จ!';
+
+            Line::send($message);
+        } else {
+            $message = 'ไม่พบข้อมูลหนังสือที่ต้องการลบ';
+
+            Line::send($message);
+        }
+
         return redirect()->back();
     }
 
-    public function reportbook(Request $request)
+    public function reportbook()
     {
-        $report_books = Book::whereDate('created_at', now()->toDateString())->get();
-    
-        // สร้างข้อมูลสำหรับ Morris.js
-        $morrisData = [];
-        foreach ($report_books as $book) {
-            $morrisData[] = [
-                'label' => $book->title,
-                'value' => 1, // หรือใช้จำนวนทั้งหมดของหนังสือที่เพิ่มในวันนี้
-            ];
-        }
-    
-        // สร้างข้อมูลสำหรับ Chart.js
-        $chartData = [
-            'labels' => $report_books->pluck('title'),
-            'datasets' => [
-                [
-                    'label' => 'จำนวนหนังสือ',
-                    'data' => $report_books->count(), // หรือใช้จำนวนทั้งหมดของหนังสือที่เพิ่มในวันนี้
-                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
-                    'borderColor' => 'rgba(75, 192, 192, 1)',
-                    'borderWidth' => 1,
-                ],
-            ],
-        ];
-    
-        $showGraph = $request->input('graph', false);
-    
-        return view('reportbook', compact('report_books', 'morrisData', 'chartData', 'showGraph'));
+        $report_books = book::get();
+        $report_books_grgy = bookcategory::get();
+
+        return view('reportbook', compact('report_books', 'report_books_grgy'));
     }
+
+    public function filter(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
     
+        $report_books = Book::whereDate('created_at', '>=', $start_date)
+            ->whereDate('created_at', '<=', $end_date) 
+            ->get();
+    
+        return view('reportbook', compact('report_books'));
+    }
 }

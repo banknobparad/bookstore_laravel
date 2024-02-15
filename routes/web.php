@@ -26,5 +26,7 @@ Route::post('update/{id}',[BookController::class,'update'])->name('book.update')
 
 Route::get('delete/{id}',[BookController::class, 'delete'])->name('book.delete');
 
-Route::get('report', [BookController::class, 'reportbook'])->name('books.report');
+
+Route::get('reportbook', [BookController::class, 'reportbook'])->name('books.reportbook');
+Route::get('filter', [BookController::class, 'filter'])->name('books.filter');
 

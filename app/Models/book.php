@@ -12,8 +12,8 @@ class book extends Model
     use HasFactory;
 
 
-    function ctgybook()
-    {
-        return $this->hasOne( 'App\Models\bookcategory', 'id', 'ctgy_book' );
-    }
+function ctgybook()
+{
+    return $this->hasOne( 'App\Models\bookcategory', 'id', 'ctgy_book' );
+}
 }

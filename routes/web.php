@@ -23,3 +23,8 @@ Route::post('store',[BookController::class, 'store'])->name('book.store');
 
 Route::get('edit/{id}',[BookController::class,'edit'])->name('book.edit');
 Route::post('update/{id}',[BookController::class,'update'])->name('book.update');
+
+Route::get('delete/{id}',[BookController::class, 'delete'])->name('book.delete');
+
+Route::get('report', [BookController::class, 'reportbook'])->name('books.report');
+

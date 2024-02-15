@@ -8,21 +8,37 @@
 
     </style>
     <div class="container py-4">
-        <section class="py-5 text-center">
+        <section class=" text-center">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Album example</h1>
-                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the
-                        creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
-                        entirely.</p>
-                    <p>
-                        <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                    </p>
+                    <h1 class="fw-light">ร้านหนังสือ BookStore</h1>
                 </div>
             </div>
         </section>
 
+        <!-- Add this section for the slideshow -->
+        <div id="bookCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @foreach ($books as $index => $book)
+                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                        <img src="/images/{{ $book->image }}" alt="{{ $book->title }}" class="d-block w-100"
+                            style="height: 350px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{ $book->title }}</h5>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <a class="carousel-control-prev" href="#bookCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#bookCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <!-- End of slideshow section -->
 
         <div class="container">
             <div class="row flex-row flex-wrap g-3">
@@ -38,8 +54,10 @@
                                 <p>{{ number_format($book->price, 2, '.', ',') }} บาท</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                        <a href="{{ route('book.show', $book->id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                        <a href="{{ route('book.edit', $book->id) }}"
+                                            class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a href="{{ route('book.show', $book->id) }}"
+                                            class="btn btn-sm btn-outline-primary">View</a>
                                     </div>
                                     <small class="text-muted">
                                         {{ (new DateTime($book->created_at))->diff(new DateTime())->format('%i นาทีที่แล้ว') }}
@@ -53,16 +71,11 @@
         </div>
     </div>
 
-
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                responsive: true,
-                ordering: false,
-                autoWidth: false,
+        $(document).ready(function () {
+            $('#bookCarousel').carousel({
+                interval: 3000, // Set the interval for auto-sliding in milliseconds (adjust as needed)
             });
         });
     </script>
-
-
 @endsection

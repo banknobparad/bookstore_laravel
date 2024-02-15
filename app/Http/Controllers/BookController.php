@@ -20,8 +20,18 @@ class BookController extends Controller
 
     function show($id)
     {
+        $show_ctgybook = bookcategory::get();
+
         $show_book = book::find($id);
-        return view('show', compact('show_book'));
+        
+        // Fetch random related books with the same ctgy_book
+        $random_related_books = book::inRandomOrder()
+            ->where('ctgy_book', $show_book->ctgy_book)
+            ->where('id', '!=', $show_book->id)
+            ->limit(4) // Adjust the limit as needed
+            ->get();
+
+        return view('show', compact('show_book', 'show_ctgybook', 'random_related_books'));
     }
 
     function create()
@@ -75,7 +85,7 @@ class BookController extends Controller
 
 
         Line::send('บันทึกข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!');
-        
+
         return redirect()->route('book.index');
     }
 
@@ -132,7 +142,7 @@ class BookController extends Controller
         $message = 'อัปเดตข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!';
 
         Line::send($message);
-        
+
         book::where('id', $id)->update($input);
         return redirect()->route('book.index');
     }

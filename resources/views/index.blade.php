@@ -9,8 +9,27 @@
 
 @section('content')
     <style>
+        .btn-outline-primary {
+            transition: background-color 0.3s, color 0.3s;
+        }
 
+        .btn-outline-primary.active {
+            background-color: #007bff;
+            color: #fff;
+            /* เพิ่มสไตล์อื่น ๆ ตามต้องการ */
+        }
+
+        .card {
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
     </style>
+
+
+
 
     <div class="container py-4">
         <section class=" text-center">
@@ -23,22 +42,26 @@
         <div class="container">
             <div class="row flex-row flex-wrap g-3">
                 <div class="col-md-9 mb-3">
+                    <button type="button" class="btn btn-outline-primary" data-target="all"
+                        onclick="showAllBooks()">แสดงทั้งหมด</button>
+                    <span style="color:rgb(50, 53, 50)">|</span>
                     @forelse ($ctgy_book as $category)
-                        <button type="button" class="btn btn-outline-primary"
+                        <button type="button" class="btn btn-outline-primary" data-target="{{ $category->id }}"
                             onclick="filterByCategory('{{ $category->id }}')">{{ $category->name_book }}</button>
                     @empty
                         {{-- เอาไว้แก้ไขถ้าไม่มีเนื้อหา --}}
                     @endforelse
-                    <button type="button" class="btn btn-outline-primary" onclick="showAllBooks()">แสดงทั้งหมด</button>
                 </div>
+
                 <div class="col-md-3 mb-3">
                     <form action="{{ route('book.index') }}" method="GET">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="ค้นหาหนังสือ" name="search" value="{{ request('search') }}">
+                            <input type="text" class="form-control" placeholder="ค้นหาหนังสือ" name="search"
+                                value="{{ request('search') }}">
                             <button class="btn btn-outline-primary" type="submit">ค้นหา</button>
                         </div>
                     </form>
-                    
+
                 </div>
                 <div class="text-center">
                     @if (isset($message))
@@ -73,7 +96,7 @@
                                             class="btn btn-sm btn-outline-primary">View</a>
                                     </div>
                                     <small class="text-muted">
-                                        {{ (new DateTime($book->updated_at))->diff(new DateTime())->format('%i นาทีที่แล้ว') }}
+                                       Update: {{ $book->formatted_updated_at }}
                                     </small>
                                 </div>
                             </div>
@@ -84,18 +107,52 @@
         </div>
     </div>
 
-    <script>
-        // Filter books by category
+    {{-- <script>
         function filterByCategory(categoryId) {
             $('.col').hide();
             $('.col[data-category="' + categoryId + '"]').show();
         }
 
-        // Show all books
         function showAllBooks() {
             $('.col').show();
         }
+    </script> --}}
+
+    <script>
+        function filterByCategory(categoryId) {
+            // ลบคลาส active จากทุกปุ่ม
+            $('.btn-outline-primary').removeClass('active');
+
+            // เพิ่มคลาส active ให้กับปุ่มที่ถูกคลิก
+            $('[data-target="' + categoryId + '"]').addClass('active');
+
+            // ซ่อนทั้งหมดก่อน
+            $('.col').hide();
+
+            // แสดงเฉพาะ element ที่ตรงกับ categoryId
+            $('.col[data-category="' + categoryId + '"]').show();
+
+            // เพิ่มโค้ด "However" ที่คุณต้องการทำ
+            console.log("Filter by category: " + categoryId);
+            // เช่นแสดงข้อความหรือปรับปรุงข้อมูลตามต้องการ
+        }
+
+        function showAllBooks() {
+            // ลบคลาส active จากทุกปุ่ม
+            $('.btn-outline-primary').removeClass('active');
+
+            // เพิ่มคลาส active ให้กับปุ่ม "แสดงทั้งหมด"
+            $('[data-target="all"]').addClass('active');
+
+            // แสดงทั้งหมด
+            $('.col').show();
+
+            // เพิ่มโค้ด "However" ที่คุณต้องการทำ
+            console.log("Show all books");
+            // เช่นแสดงข้อความหรือปรับปรุงข้อมูลตามต้องการ
+        }
     </script>
+
 
     <script>
         // Confirm with SweetAlert function

@@ -33,6 +33,7 @@ class ComposerStaticInit271d745ec58c804add8d584d7374d485
         'f57d353b41eb2e234b26064d63d8c5dd' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Filesystem/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '38ea50801e981fa2297115e1c44a148b' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/helpers.php',
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
@@ -118,6 +119,7 @@ class ComposerStaticInit271d745ec58c804add8d584d7374d485
         array (
             'Monolog\\' => 8,
             'Mockery\\' => 8,
+            'Mckenziearts\\Notify\\' => 20,
         ),
         'L' => 
         array (
@@ -397,6 +399,10 @@ class ComposerStaticInit271d745ec58c804add8d584d7374d485
         'Mockery\\' => 
         array (
             0 => __DIR__ . '/..' . '/mockery/mockery/library/Mockery',
+        ),
+        'Mckenziearts\\Notify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src',
         ),
         'League\\MimeTypeDetection\\' => 
         array (
@@ -3233,6 +3239,11 @@ class ComposerStaticInit271d745ec58c804add8d584d7374d485
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
         'League\\MimeTypeDetection\\OverridingExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/OverridingExtensionToMimeTypeMap.php',
+        'Mckenziearts\\Notify\\Exceptions\\MissingPresetNotificationException' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/Exceptions/MissingPresetNotificationException.php',
+        'Mckenziearts\\Notify\\Facades\\LaravelNotify' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/Facades/LaravelNotify.php',
+        'Mckenziearts\\Notify\\LaravelNotify' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/LaravelNotify.php',
+        'Mckenziearts\\Notify\\LaravelNotifyServiceProvider' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/LaravelNotifyServiceProvider.php',
+        'Mckenziearts\\Notify\\Storage\\Session' => __DIR__ . '/..' . '/mckenziearts/laravel-notify/src/Storage/Session.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
         'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',

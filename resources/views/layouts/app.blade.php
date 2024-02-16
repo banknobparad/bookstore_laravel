@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
+    @notifyCss
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
@@ -34,6 +35,12 @@
         body {
             font-family: 'Bai Jamjuree', sans-serif;
         }
+
+        .notify {
+            position: fixed !important;
+            top: 50px !important;
+            z-index: 2000 !important;
+        }
     </style>
 </head>
 
@@ -58,7 +65,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link  @yield('activeReport')" href="{{ route('books.reportbook') }}">{{ __('ReportBook') }}</a>
+                        <a class="nav-link  @yield('activeReport')"
+                            href="{{ route('books.reportbook') }}">{{ __('ReportBook') }}</a>
                     </li>
 
                 </ul>
@@ -84,7 +92,8 @@
 
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <x-notify::notify />
+    @notifyJs
 </body>
 
 </html>

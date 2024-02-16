@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\book;
 use App\Models\bookcategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Phattarachai\LineNotify\Facade\Line;
@@ -14,12 +15,12 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        $ctgy_book = bookcategory::get();
-        $searchTerm = $request->input('search');
-
         // 'title' คือ ชื่อคอลัมน์ที่ต้องการค้นหา
         // 'LIKE' คือ operator ที่บอกให้ SQL ทำการค้นหาที่มีค่าในคอลัมน์ title ที่ตรงกับรูปแบบที่กำหนดใน %$searchTerm%
         // "%$searchTerm%" คือ รูปแบบที่ต้องการค้นหา, % ใช้เพื่อแทนจำนวนตัวอักษรที่ไม่รู้ว่าจะเป็นอะไรก็ได้ทั้งหมดทั้งน้อย.
+        
+        $ctgy_book = bookcategory::get();
+        $searchTerm = $request->input('search');
 
         if ($searchTerm) {
             $books = Book::where('title', 'LIKE', "%$searchTerm%")->get();
@@ -31,8 +32,13 @@ class BookController extends Controller
             $books = Book::all();
         }
 
+        foreach ($books as $book) {
+            $book->formatted_updated_at = Carbon::parse($book->updated_at)->diffForHumans();
+        }
+
         return view('index', compact('books', 'ctgy_book'));
     }
+
 
     function show($id)
     {
@@ -101,7 +107,7 @@ class BookController extends Controller
 
         Line::send('บันทึกข้อมูลหนังสือ ' . $request->title . ' สำเร็จ!');
 
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('notification', notify()->success('แก้ไขข้อมูลสำเร็จ 👍', 'ข้อความแจ้งเตือน!!!'));
     }
 
     function edit($id)
@@ -159,7 +165,7 @@ class BookController extends Controller
 
         Line::send($message);
 
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('notification', notify()->success('แก้ไขข้อมูลสำเร็จ 👍', 'ข้อความแจ้งเตือน!!!'));
     }
 
     function delete($id)
@@ -193,11 +199,11 @@ class BookController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-    
+
         $report_books = Book::whereDate('created_at', '>=', $start_date)
-            ->whereDate('created_at', '<=', $end_date) 
+            ->whereDate('created_at', '<=', $end_date)
             ->get();
-    
+
         return view('reportbook', compact('report_books'));
     }
 }

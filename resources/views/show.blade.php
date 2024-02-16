@@ -29,15 +29,30 @@
             background-color: #ffffff;
             color: #212529;
         }
+
+        .btn-outline-primary {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-outline-primary.active {
+            background-color: #007bff;
+            color: #fff;
+            /* เพิ่มสไตล์อื่น ๆ ตามต้องการ */
+        }
     </style>
     <div class="container">
         <div class="row flex-row flex-wrap g-3">
             <div class="col-3 p-3">
 
-                <div class="row">
-                    <img src="/images/{{ $show_book->image }}" alt="{{ $show_book->title }}" class="card-img-top"
-                        style="height: 350px; object-fit: cover;">
+                <div class="row" id="imageContainer">
+                    <div id="overlay" onclick="closeModal()"></div>
+                    <a href="javascript:void(0);"
+                        onclick="showImage('/images/{{ $show_book->image }}', '{{ $show_book->title }}')">
+                        <img id="bookImage" src="/images/{{ $show_book->image }}" alt="{{ $show_book->title }}"
+                            class="card-img-top" style="height: 350px; object-fit: cover;">
+                    </a>
                 </div>
+
 
             </div>
             <div class="col-1 p-3"></div>
@@ -155,13 +170,30 @@
                                     <p style="font-size: 14px">{{ number_format($related_book->price, 2, '.', ',') }} บาท
                                     </p>
                                     <a href="{{ route('book.show', $related_book->id) }}"
-                                        class="btn btn-primary btn-sm">ดูรายละเอียด</a>
+                                        class="btn btn-outline-primary btn-sm">ดูรายละเอียด</a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
 
+                <script>
+                    function showImage(imageSrc, title) {
+                        var modal = document.createElement('div');
+                        modal.innerHTML =
+                            '<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); text-align: center; display: flex; justify-content: center; align-items: center;">' +
+                            '<img src="' + imageSrc + '" alt="' + title +
+                            '" style="max-width: 80%; max-height: 80%; border: 5px solid white;">' +
+                            '<div style="position: absolute; top: 10px; right: 10px; color: white; cursor: pointer; font-size: 20px;" onclick="closeModal()">X</div>' +
+                            '</div>';
+                        document.body.appendChild(modal);
+                    }
+
+                    function closeModal() {
+                        var modal = document.querySelector('div[style*="background: rgba(0, 0, 0, 0.8);"]');
+                        modal.parentNode.removeChild(modal);
+                    }
+                </script>
 
                 <script>
                     function toggleHeart(button) {
